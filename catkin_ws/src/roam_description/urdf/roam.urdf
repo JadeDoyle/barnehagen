@@ -76,7 +76,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 -1.5707963268" />
       <geometry>
-        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/ratrig.dae"/>
+        <mesh filename="package://roam_description/meshes/ratrig.dae"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -308,7 +308,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_1.dae"/>
+        <mesh filename="package://roam_description/meshes/link_1.dae"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -336,7 +336,7 @@
     <visual>
       <origin xyz="0.111 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_2.dae"/>
+        <mesh filename="package://roam_description/meshes/link_2.dae"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -364,7 +364,7 @@
     <visual>
       <origin xyz="0.111 0 -0.242" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_3.dae"/>
+        <mesh filename="package://roam_description/meshes/link_3.dae"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -392,7 +392,7 @@
     <visual>
       <origin xyz="0 0.11513 0" rpy="0 0 0" />
       <geometry>
-          <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_4.dae"/>
+          <mesh filename="package://roam_description/meshes/link_4.dae"/>
       </geometry>
       <material name="white"/>
     </visual>
