@@ -1,0 +1,5 @@
+controller_list:
+	- name: roam/joint_trajectory_controller
+		action_ns: "follow_joint_trajectory"
+		type: FollowJointTrajectory
+		joints: [link_1_joint, link_2_joint, link_3_joint, link_4_joint, link_5_joint, link_6_joint, link_7_joint,]

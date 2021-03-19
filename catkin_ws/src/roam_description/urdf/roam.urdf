@@ -1,0 +1,818 @@
+<?xml version="1.0"?>
+<robot name="roam">
+
+  <material name="white">
+    <color rgba="0.9 0.9 0.9 0.7"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0 0.6 1 0.7"/>
+  </material>
+
+  <material name="red">
+    <color rgba="1 0 0 0.7"/>
+  </material>
+  
+  <material name="green">
+    <color rgba="0.1 1 0 0.7"/>
+  </material>
+  
+  <material name="black">
+    <color rgba="0.05 0.09 0.11 0.7"/>
+  </material>
+  
+  <!-- Base -->
+
+  <link name="base_footprint" />
+
+  <link name="base_link">
+  	<inertial>
+      <origin xyz="0 0 0.05" rpy="0 0 0" />
+      <mass value="5"/>
+      <inertia 
+      	ixx="0.9013370" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.4405845"
+      	iyz="0.0" 
+      	izz="1.2618254"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.05" rpy="0 0 0" />
+      <geometry>
+        <box size="0.371 0.253 0.08" />
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.05" rpy="0 0 0" />
+      <geometry>
+        <box size="0.371 0.371 0.1" />
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+  
+  <joint name="base_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Ratrig & sensors -->
+
+  <link name="ratrig_link">
+    <inertial>
+      <origin xyz="0 0 -0.03" rpy="0 0 0" />
+      <mass value="0.4"/>
+      <inertia 
+      	ixx="0.0083467" 
+      	ixy="0.0" 
+      	ixz="0.0"
+      	iyy="0.0006667"
+      	iyz="0.0" 
+      	izz="0.0089867"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 -1.5707963268" />
+      <geometry>
+        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/ratrig.dae"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.03" rpy="0 0 0" />
+      <geometry>
+        <box size="0.037 0.140 0.537"/> 
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+   
+  <link name="camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707963268 0" />
+      <mass value="0.095"/>
+      <inertia 
+      	ixx="0.000027445104167" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.000027445104167"
+      	iyz="0.0" 
+      	izz="0.000044186875"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5707963268 0" />
+      <geometry>
+        <cylinder length="0.026" radius="0.0305"/> 
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.5707963268 0" />
+      <geometry>
+        <cylinder length="0.026" radius="0.0305"/> 
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+
+  <link name="kinect_optical_link"/>
+  <link name="laser_link"/>
+  
+  <joint name="ratrig_joint" type="fixed">
+    <origin xyz="-0.125 0 0.386" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="ratrig_link"/>
+  </joint>
+  
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="-0.098112 0 0.6405" rpy="0 0.5235987756 0" />
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+  
+  <joint name="kinect_optical_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.0 0.0 0.0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_link"/>
+    <child link="kinect_optical_link"/>
+  </joint>
+  
+  <joint name="laser_joint" type="fixed">
+<origin xyz="-0.098112 0 0.6405" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="laser_link"/>
+  </joint>
+  
+  <!-- Wheels -->
+
+  <link name="fl_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 1.5707963268"/>
+      <mass value="0.186"/>
+      <inertia 
+      	ixx="0.00019384" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.00010212"
+      	iyz="0.0" 
+      	izz="0.00010212"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+		<collision>
+      <origin xyz="0 0 0" rpy="1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+      <material name="green"/>		
+		</collision>
+  </link>
+  
+  <link name="fr_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 -1.5707963268"/>
+      <mass value="0.186"/>
+      <inertia 
+      	ixx="0.00019384" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.00010212"
+      	iyz="0.0" 
+      	izz="0.00010212"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="-1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/> 
+      </geometry>
+      <material name="green"/>
+    </visual>
+		<collision>
+		  <origin xyz="0 0 0" rpy="-1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/> 
+      </geometry>
+      <material name="green"/>
+		</collision>
+  </link>
+  
+  <link name="bl_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 1.5707963268"/>
+      <mass value="0.186"/>
+      <inertia 
+      	ixx="0.00019384" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.00010212"
+      	iyz="0.0" 
+      	izz="0.00010212"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+      <material name="green"/>
+  	</collision>
+  </link>
+  
+  <link name="br_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 -1.5707963268"/>
+      <mass value="0.186"/>
+      <inertia 
+      	ixx="0.00019384" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.00010212"
+      	iyz="0.0" 
+      	izz="0.00010212"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="-1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/> 
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="-1.5707963268 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/> 
+      </geometry>
+      <material name="green"/>    
+    </collision>
+  </link>
+  
+  <joint name="fl_wheel_joint" type="continuous">
+	  <parent link="base_link"/>
+	  <child link="fl_wheel_link"/>
+	  <origin xyz="0.1405 -0.137 0.05" rpy="0 0 0"/>
+	  <axis xyz="0 1 0"/>
+	  <dynamics damping="0.0" friction="0.2"/>
+	</joint>
+  
+  <joint name="fr_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="fr_wheel_link"/>
+    <origin xyz="0.1405 0.137 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0" friction="0.2"/>
+  </joint>
+  
+  <joint name="bl_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="bl_wheel_link"/>
+    <origin xyz="-0.1405 -0.137 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0" friction="0.2"/>
+  </joint>
+  
+  <joint name="br_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="br_wheel_link"/>
+    <origin xyz="-0.1405 0.137 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0" friction="0.2"/>
+  </joint>
+  
+  <!-- Arm and eef -->
+
+  <link name="link_1">
+  	<inertial>
+      <origin xyz="-0.023 0 -0.02702" rpy="0 0 0" />
+      <mass value="0.01817737692596768"/>
+      <inertia 
+      	ixx="0.0117337" 
+      	ixy="0.0" 
+      	ixz="0.0024952" 
+      	iyy="0.0177397"
+      	iyz="0.0" 
+      	izz="0.0126389"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_1.dae"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.023 0 -0.02702" rpy="0 0 0" />
+      <geometry>
+        <box size="0.126 0.08 0.121" />
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+  
+  <link name="link_2">
+    <inertial>
+      <origin xyz="0 0 0.12" rpy="0 0 0" />
+      <mass value="0.015678316422397593"/>
+      <inertia 
+      	ixx="0.0741795" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.0734247"
+      	iyz="0.0" 
+      	izz="0.0028546"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.111 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_2.dae"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.01 0 0.12" rpy="0 0 0" />
+      <geometry>
+        <box size="0.04 0.08 0.319" />
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+  
+  <link name="link_3">
+    <inertial>
+      <origin xyz="0.0869705 0 -0.06985" rpy="0 0 0" />
+      <mass value="0.0023307027433295753"/>
+      <inertia 
+      	ixx="0.0435278" 
+      	ixy="0.0" 
+      	ixz="0.0071291" 
+      	iyy="0.0504512"
+      	iyz="0.0" 
+      	izz="0.0126002"/>
+    </inertial>  
+    <visual>
+      <origin xyz="0.111 0 -0.242" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_3.dae"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0869705 0 -0.06985" rpy="0 0 0" />
+      <geometry>
+        <box size="0.124 0.074 0.213" />
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+  
+  <link name="link_4">
+    <inertial>
+      <origin xyz="0 0.07549 0" rpy="0 0 0" />
+      <mass value="0.0011574596016535137"/>
+      <inertia 
+      	ixx="0.0239387" 
+      	ixy="-0.0000515" 
+      	ixz="0.0" 
+      	iyy="0.0019283"
+      	iyz="0.0" 
+      	izz="0.0237407"/>
+    </inertial>  
+    <visual>
+      <origin xyz="0 0.11513 0" rpy="0 0 0" />
+      <geometry>
+          <mesh filename="file:///home/bonbenjo/Desktop/barnehagen/catkin_ws/src/roam_description/meshes/link_4.dae"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.07549 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.055 0.222 0.073" />
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+  
+  <link name="link_5">
+    <inertial>
+      <origin xyz="0 0 0" rpy="1.5708 0 0" />
+      <mass value="0.0001262683201803833"/>
+      <inertia 
+      	ixx="0.0001088" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.0001822"
+      	iyz="0.0" 
+      	izz="0.0001088"/>
+    </inertial>  
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0" />
+      <geometry>
+        <cylinder length="0.0208" radius="0.0274"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0" />
+      <geometry>
+        <cylinder length="0.0208" radius="0.0274"/>
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+  
+  <link name="link_6">
+  	<inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.0001"/>
+      <inertia 
+      	ixx="0.0" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.0"
+      	iyz="0.0" 
+      	izz="0.0"/>
+    </inertial>  
+  </link>
+  
+  <link name="link_7">
+  	<inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.0001"/>
+      <inertia 
+      	ixx="0.0" 
+      	ixy="0.0" 
+      	ixz="0.0" 
+      	iyy="0.0"
+      	iyz="0.0" 
+      	izz="0.0"/>
+    </inertial>  
+  </link>
+  
+	<joint name="link_1_joint" type="revolute">
+		<parent link="base_link"/>
+		<child link="link_1"/>
+		<origin xyz="0 0 0.17108" rpy="0 0 -1.5708"/>
+		<limit lower="-2.35" upper="0.45" effort="10" velocity="3"/>
+		<axis xyz="0 0 1"/>
+		<dynamics damping="0.7" friction="0.2"/>
+	</joint>
+
+	<joint name="link_2_joint" type="revolute">
+		<parent link="link_1"/>
+		<child link="link_2"/>
+		<origin xyz="-0.111 0 0" rpy="0 0 0"/>
+		<limit lower="-1.5708" upper="0.261799" effort="10" velocity="3"/>
+		<axis xyz="1 0 0"/>
+		<dynamics damping="0.7" friction="0.2"/>
+	</joint>  
+
+	<joint name="link_3_joint" type="revolute">
+		<parent link="link_2"/>
+		<child link="link_3"/>
+		<origin xyz="0 0 0.242" rpy="0 0 0"/>
+		<limit lower="-0.4" upper="3.1415" effort="10" velocity="3"/>
+		<axis xyz="1 0 0"/>
+		<dynamics damping="0.7" friction="0.2"/>
+	</joint>  
+
+	<joint name="link_4_joint" type="revolute">
+		<parent link="link_3"/>
+		<child link="link_4"/>
+		<origin xyz="0.0495 0 -0.13949" rpy="0 0 0"/>
+		<limit lower="-3.1415" upper="1" effort="10" velocity="3"/>
+		<axis xyz="1 0 0"/>
+		<dynamics damping="0.7" friction="0.2"/>
+	</joint>  
+	
+	<joint name="link_5_joint" type="revolute">
+		<parent link="link_4"/>
+		<child link="link_5"/>
+		<origin xyz="0 0.19542 0" rpy="0 0 0"/>
+		<limit lower="-3.1" upper="3.1" effort="10" velocity="3"/>
+		<axis xyz="0 1 0"/>
+		<dynamics damping="0.7" friction="0.2"/>
+	</joint>  
+
+	<joint name="link_6_joint" type="continuous">
+		<parent link="link_5"/>
+		<child link="link_6"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+	
+	<joint name="link_7_joint" type="continuous">
+		<parent link="link_6"/>
+		<child link="link_7"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+	</joint>
+
+	<!-- Tbh, i dont have a clue whats going on here -->
+
+	<transmission name="link_1_transmission">
+		  <type>transmission_interface/SimpleTransmission</type>
+		  <joint name="link_1_joint">
+		      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		  </joint>
+		  <actuator name="link_1_motor">
+		      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		      <mechanicalReduction>9</mechanicalReduction>
+		  </actuator>
+	</transmission>
+	
+	<transmission name="link_2_transmission">
+		  <type>transmission_interface/SimpleTransmission</type>
+		  <joint name="link_2_joint">
+		      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		  </joint>
+		  <actuator name="link_2_motor">
+		      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		      <mechanicalReduction>86</mechanicalReduction>
+		  </actuator>
+	</transmission>
+	
+	<transmission name="link_3_transmission">
+		  <type>transmission_interface/SimpleTransmission</type>
+		  <joint name="link_3_joint">
+		      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		  </joint>
+		  <actuator name="link_3_motor">
+		      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		      <mechanicalReduction>50</mechanicalReduction>
+		  </actuator>
+	</transmission>
+	
+	<transmission name="link_4_transmission">
+	  <type>transmission_interface/SimpleTransmission</type>
+		  <joint name="link_4_joint">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		  </joint>
+	  <actuator name="link_4_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>50</mechanicalReduction>
+	  </actuator>
+	</transmission>
+	
+	<transmission name="link_5_transmission">
+	  <type>transmission_interface/SimpleTransmission</type>
+	  <joint name="link_5_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	  </joint>
+	  <actuator name="link_5_motor">
+	    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    <mechanicalReduction>86</mechanicalReduction>
+	  </actuator>
+	</transmission>
+	
+	<transmission name="link_6_transmission">
+	  <type>transmission_interface/SimpleTransmission</type>
+	  <joint name="link_6_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	  </joint>
+	  <actuator name="link_6_motor">
+	    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    <mechanicalReduction>1</mechanicalReduction>
+	  </actuator>
+	</transmission>
+	
+	<transmission name="link_7_transmission">
+	  <type>transmission_interface/SimpleTransmission</type>
+	  <joint name="link_7_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	  </joint>
+	  <actuator name="link_7_motor">
+	    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    <mechanicalReduction>1</mechanicalReduction>
+	  </actuator>
+	</transmission>
+	
+	<transmission name="fl_wheel_transmission">
+		<type>transmission_interface/SimpleTransmission</type>
+			<joint name="fl_wheel_joint">
+				<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			</joint>
+		<actuator name="fl_wheel_motor">
+			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			<mechanicalReduction>56</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<transmission name="fr_wheel_transmission">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="fr_wheel_joint">
+			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="fr_wheel_motor">
+			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			<mechanicalReduction>56</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<transmission name="bl_wheel_transmission">
+		<type>transmission_interface/SimpleTransmission</type>
+			<joint name="bl_wheel_joint">
+				<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			</joint>
+		<actuator name="bl_wheel_motor">
+			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			<mechanicalReduction>56</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<transmission name="br_wheel_transmission">
+		<type>transmission_interface/SimpleTransmission</type>
+			<joint name="br_wheel_joint">
+				<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			</joint>
+		<actuator name="br_wheel_motor">
+			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			<mechanicalReduction>56</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+<gazebo> 
+	<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+	<plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+		<commandTopic>cmd_vel</commandTopic>
+		<odometryTopic>odom</odometryTopic>
+		<odometryFrame>odom</odometryFrame>
+		<odometryRate>60</odometryRate>
+		<robotBaseFrame>base_footprint</robotBaseFrame>
+	</plugin>
+</gazebo>
+	
+  <gazebo reference="imu_link">
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>base_footprint</bodyName>
+      <topicName>odom</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0</gaussianNoise>
+      <updateRate>60</updateRate>
+    </plugin>
+  </gazebo>
+  
+   <gazebo reference="camera_link">
+    <sensor name="depth_camera" type="depth">
+      <update_rate>15</update_rate>
+      <camera>
+        <horizontal_fov>1.22173</horizontal_fov>
+        <image>
+          <width>1024</width>
+          <height>768</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.01</near>
+          <far>5</far>
+        </clip>
+      </camera>
+      <plugin name="depth_controller" filename="libgazebo_ros_openni_kinect.so">
+        <baseline>0.2</baseline>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0</updateRate>
+        <cameraName>realsense_ir</cameraName>
+        <imageTopicName>/realsense/color/image_raw</imageTopicName>
+        <cameraInfoTopicName>/realsense/color/camera_info</cameraInfoTopicName>
+        <depthImageTopicName>/realsense/depth/image_raw</depthImageTopicName>
+        <depthImageInfoTopicName>/realsense/depth/camera_info</depthImageInfoTopicName>
+        <pointCloudTopicName>/realsense/depth/points</pointCloudTopicName>
+        <frameName>kinect_optical_link</frameName>
+        <pointCloudCutoff>0.25</pointCloudCutoff>
+        <pointCloudCutoffMax>5</pointCloudCutoffMax>
+        <distortionK1>0.00000001</distortionK1>
+        <distortionK2>0.00000001</distortionK2>
+        <distortionK3>0.00000001</distortionK3>
+        <distortionT1>0.00000001</distortionT1>
+        <distortionT2>0.00000001</distortionT2>
+        <CxPrime>0</CxPrime>
+        <Cx>0</Cx>
+        <Cy>0</Cy>
+        <focalLength>0</focalLength>
+        <hackBaseline>0</hackBaseline>
+      </plugin>
+    </sensor>
+  </gazebo>
+  
+  <gazebo reference="laser_link">
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>60</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>128</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.610865238</min_angle>
+            <max_angle>0.610865238</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.25</min>
+          <max>9</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/roam/laser/scan</topicName>
+        <frameName>laser_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+  
+  <gazebo reference="fl_wheel_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="fr_wheel_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="bl_wheel_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="br_wheel_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/Green</material>
+  </gazebo>
+  
+  <gazebo reference="base_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>	
+  <gazebo reference="ratrig_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>	
+  
+	<gazebo reference="link_1">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  <gazebo reference="link_2">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  <gazebo reference="link_3">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  <gazebo reference="link_4">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  <gazebo reference="link_5">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <turnGravityOff>true</turnGravityOff>
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  
+</robot>

@@ -1,0 +1,9 @@
+obstacle_range: 4
+raytrace_range: 5
+#footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
+robot_radius: 0.4
+inflation_radius: 0.55
+
+observation_sources: point_cloud_sensor
+
+point_cloud_sensor: {sensor_frame: kinect_optical_link, data_type: PointCloud2, topic: /realsense/depth/points, marking: true, clearing: true}

@@ -1,0 +1,39 @@
+<launch>
+
+  <arg name="robot" default="machines"/>
+  <arg name="debug" default="false"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="pause" default="true"/> 
+  <arg name="x" default="0.0" />
+  <arg name="y" default="0.0" />
+  <arg name="z" default="0.005" />
+  <arg name="robot_name" default="roam" />
+
+	<param name="robot_description" command="cat $(find roam_description)/urdf/roam.urdf"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="debug" value="$(arg debug)" />
+      <arg name="gui" value="$(arg gui)" />
+      <arg name="paused" value="$(arg pause)"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="headless" value="$(arg headless)"/>
+  </include>
+  
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+  args="-urdf -x $(arg x) -y $(arg y) -z $(arg z)  -model $(arg robot_name) -param robot_description"/>
+  
+  <!--                                                                  -->
+
+	<rosparam file="$(find roam_control)/config/roam_control.yaml" command="load"/>
+	
+  <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher_gui"/-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find roam_description)/launch/roam.rviz"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="fl_wheel_joint_velocity_controller fr_wheel_joint_velocity_controller bl_wheel_joint_velocity_controller br_wheel_joint_velocity_controller link_1_joint_position_controller link_2_joint_position_controller link_3_joint_position_controller link_4_joint_position_controller joint_state_controller"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <!--remap from="/joint_states" to="/roam/joint_states"/-->
+  </node>
+  
+</launch>

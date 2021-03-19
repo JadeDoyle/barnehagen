@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: roam_description
+    relative_path: urdf/roam.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/roam.srdf
+  CONFIG:
+    author_name: Pierre Boniface
+    author_email: pierre.boniface90@gmail.com
+    generated_timestamp: 1615986811
